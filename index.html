@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Train Schedule</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-database.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Train Schedule</h1>
+    </header>
+    <br />
+    <div id="container">
+      <div class="row" id="trainInput">
+        <form class="form-inline">
+          <div class="col">
+            <input id="tNameInput" placeholder="Train Name" />
+          </div>
+          <div class="col">
+            <input id="tDestInput" placeholder="Destination" />
+          </div>
+          <div class="col">
+            <input id="tFirstTimeInput" placeholder="First Train (Military Time)" />
+          </div>
+          <div class="col">
+            <input id="tFreqInput" placeholder="Frequency (in minutes)" />
+          </div>
+          <br />
+          <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      <br />
+      <div id="trainTable">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Train Name</th>
+              <th scope="col">Destination</th>
+              <th scope="col">First Train Time</th>
+              <th scope="col">Frequency</th>
+              <th scope="col">Minutes Until Next Train</th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+  </body>
+</html>
