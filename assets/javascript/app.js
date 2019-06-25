@@ -11,7 +11,47 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
-var name, dest, start, freq;
+var localArray = [],
+  next,
+  remain,
+  name,
+  dest,
+  start,
+  freq;
+var currentTime = moment().format("X");
+var nextTrainTime = start + freq;
+
+function updateTrainInfo() {
+  for (i = 0; i < localArray.length; i++) {
+    setNextTrainTimeAndTimeUntilDepart(localArray[i].time, localArray[i].freq);
+    localArray[i].next = next;
+    localArray[i].remain = remain;
+  }
+  database.ref().set({
+    databaseArray: localArray
+  });
+}
+
+function setNextTrainArrival(start, freq) {
+  // var startUnix = moment(start, "h:mm A").format("X");
+  // var nextArrival = start + freq;
+  // var nextTrainTime = moment(nextTrainTimeUnix, "X").format("h:mm A");
+  // var minsLeft = moment(diffUntilNextTrainUnix, "X").format("m");
+
+  //remain = timeUntilDepart;
+
+  if (nextTrainTime < currentTime) {
+    nextTrainTime = nextTrainTime + freq;
+  } else if (nextTrainTime === currentTime) {
+    // display "BOARDING"
+  }
+  // push nextTrainTime and minsLeft to local array
+  // display nextTrainTime
+
+  // display minsLeft
+}
+
+setInterval(updateTrainInfo, 60000);
 
 $("#submitBtn").on("click", function(event) {
   event.preventDefault();
@@ -34,9 +74,19 @@ $("#submitBtn").on("click", function(event) {
     tFreq: freq
   });
   $("form").trigger("reset");
+  setNextTrainArrival();
 });
 
 database.ref().on("value", function(snapshot) {
+  if (snapshot.child("databaseArray").exists()) {
+    localArray = snapshot.val().databaseArray;
+    loadTrainInfo();
+  } else {
+    localArray = [];
+  }
+});
+
+function loadTrainInfo() {
   console.log(snapshot.val().tName);
   var newRow = $("<tr>");
   var newName = $("<td>").text(snapshot.val().tName);
@@ -46,4 +96,4 @@ database.ref().on("value", function(snapshot) {
   var newMins = $("<td>").text();
   newRow.append(newName, newDest, newStart, newFreq);
   $("tbody").prepend(newRow);
-});
+}
